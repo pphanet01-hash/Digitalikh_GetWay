@@ -1,38 +1,42 @@
-# DIGITALIKH GETWAY — Neural AI Gateway & Account Pool (v2.0.6)
+# 🪐 DIGITALIKH GETWAY v2.0.6 — Official Desktop Distribution
 
-Desktop AI Router & Account Pool Manager supporting **Google Antigravity OAuth**, **Gemini API Keys**, and **Gemini Web Chat (`gemini.google.com/app`)**.
+**DIGITALIKH GETWAY** is a high-performance Neural AI Gateway and Orbital Account Pool Desktop Router for Windows. It provides intelligent load-balancing and auto-routing across Google Antigravity OAuth accounts, Gemini API Keys, and Gemini Web Sessions.
 
-## Requirements
-- **Node.js** 22+ (uses built-in `node:sqlite`)
-- **Windows 10 / 11** (x64)
+---
 
-## Quick Start (Development)
-```bash
-npm install
-npm start
-```
+## 🚀 Download Official Release
 
-## Build Windows Installer (`.exe`)
-```bash
-npm run build
-```
-Output installer will be generated inside `dist/DIGITALIKH GETWAY Setup <version>.exe`.
+To download the latest Windows installer:
 
-## Project Structure
-- `main.js` — Electron main process, system tray, IPC handlers, Gemini Web Bridge (`127.0.0.1:20129`)
-- `preload.js` — Context-isolated IPC bridge for the renderer
-- `dashboard.html` — 3D Orbital Constellation UI, Live Telemetry, Settings & Pool Management
-- `activate.html` / `activate.js` — License activation screen
-- `engine/app/custom-server.js` — Local API Gateway (`127.0.0.1:20128/v1`), OpenAI/Gemini/Anthropic routing, and multimodal audio handling
-- `license/license-manager.js` & `license/cloud-config.json` — Hardware-bound license verification & Firebase config
-- `admin-keygen/` — Admin key generator (`npm run keygen`) and dashboard (`npm run admin`)
-- `chrome-extension/` — Cookie-Editor helper extension for importing Gemini Web sessions
+👉 **[Download DigitalikhGetWay.Setup.2.0.6.exe (Latest Release)](https://github.com/pphanet01-hash/Digitalikh_GetWay/releases/latest)**
 
-## Local API Endpoint
-- **Base URL:** `http://127.0.0.1:20128/v1`
-- **Default API Key:** `ls-digitalikh`
-- **Recommended Model:** `Gemini 3.8 Flash Low` (`ag/gemini-3.8-flash-low`)
-- **Modes:** `hybrid`, `antigravity`, `gemini`, `gemini-web`
+---
 
-## GitHub Repository
-- **URL:** `https://github.com/pphanet01-hash/Digitalikh_GetWay`
+## ✨ Key Features
+
+- **🪐 3D Orbital Constellation UI:** Real-time visual monitoring of all active and standby nodes.
+- **⚡ 4 Dedicated Fast Routing Models:**
+  - `Gemini 3.8 Flash (Low / Med / High)` — Default Ultra-Fast Translator
+  - `Claude Sonnet 4.6`
+  - `Claude Opus 4.6 (thinking)`
+  - `GPT-OSS 120B (Medium)`
+- **🔒 AES-256 Cloud License & Single-Device Enforcement:** Hardware-bound machine protection.
+- **🛡️ Intelligent Anti-Ban Quota Shield:** Automatic failover, sticky round-robin, and rate-limit mitigation.
+- **🌐 Universal OpenAI-Compatible API:** Seamlessly connect Dubber Pro, Subtitle Tools, and third-party AI software on `http://127.0.0.1:20128/v1`.
+
+---
+
+## 📦 System Requirements
+
+- **Operating System:** Windows 10 / 11 (64-bit)
+- **Local API Base URL:** `http://127.0.0.1:20128/v1`
+- **Default Universal Key:** `ls-digitalikh`
+
+---
+
+## 🔄 Automatic Updates
+
+DIGITALIKH GETWAY includes integrated **1-Click Auto-Updates**. When a new version is released, simply click **Update** in the top navigation bar to download and install the latest version automatically.
+
+---
+© 2026 DIGITALIKH AI. All rights reserved.

@@ -1,11 +1,5 @@
-node_modules/
-dist/
-*.bak
-*.orig
-*.zip
-*.log
-.env
-
-# Preserve standalone engine runtime modules
-!engine/node_modules/
-!engine/app/node_modules/
+# Distribution Repository - Releases Only
+# Source code is maintained privately
+*
+!README.md
+!.gitignore
