@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "SastraGetWay — Gemini Web 1-Click Connector",
+  "version": "2.0.5",
+  "description": "ភ្ជាប់គណនី Gmail ពីក្នុង Chrome (gemini.google.com/app) ចូលទៅកាន់ SastraGetWay ដោយស្វ័យប្រវត្តិ (1-Click)",
+  "permissions": [
+    "cookies",
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*.google.com/*",
+    "http://127.0.0.1:20129/*",
+    "http://localhost:20129/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "ភ្ជាប់ Gemini Web ទៅ SastraGetWay (1-Click)"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://gemini.google.com/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

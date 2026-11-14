@@ -1,0 +1,5 @@
+{
+  "cloudDatabaseUrl": "https://digitalikh-getway-default-rtdb.asia-southeast1.firebasedatabase.app",
+  "firebaseNamespace": "sastragetway_v2",
+  "telegramUrl": "@DigitalLicenseKHBot"
+}

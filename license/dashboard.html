@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; script-src 'self' 'unsafe-inline'; connect-src 'self' https://*.firebasedatabase.app;" />
+  <title>DIGITALIKH GETWAY — Admin Cloud Control Center (24/7 Firebase)</title>
+  <style>
+    @font-face {
+      font-family: 'Kantumruy Pro';
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url('/fonts/KantumruyPro-Variable.ttf') format('truetype-variations'),
+           url('/fonts/kantumruy-pro-khmer-variable.woff2') format('woff2'),
+           url('./fonts/KantumruyPro-Variable.ttf') format('truetype'),
+           local('Kantumruy Pro');
+    }
+    @font-face {
+      font-family: 'Khmer OS Siemreap';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('/fonts/KhmerOSSiemreap.ttf') format('truetype'),
+           url('./fonts/KhmerOSSiemreap.ttf') format('truetype');
+    }
+
+    :root {
+      interpolate-size: allow-keywords;
+      --bg-dark: #040715;
+      --bg-card: rgba(12, 18, 38, 0.86);
+      --border-glass: rgba(148, 163, 184, 0.16);
+      --cyan: #22d3ee;
+      --purple: #a855f7;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.18), transparent 40%),
+        radial-gradient(circle at 90% 85%, rgba(34, 211, 238, 0.16), transparent 42%),
+        linear-gradient(145deg, #030511 0%, #070c20 55%, #040715 100%);
+      color: var(--text-primary);
+      font-family: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 20px 24px 36px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: "kern" 1, "liga" 1;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+    }
+
+    button, input, select, textarea, label {
+      font-family: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Top Header */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 16px 20px;
+      border-radius: 20px;
+      background: var(--bg-card);
+      border: 1px solid rgba(34, 211, 238, 0.24);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      padding: 2px;
+      background: linear-gradient(135deg, #a855f7, #6366f1, #22d3ee);
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.32);
+    }
+    .brand-logo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      background: #050816;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brand-logo-inner img {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ffffff, #a5f3fc, #d8b4fe);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.38);
+      color: #6ee7b7;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 10px #10b981;
+    }
+
+    .btn {
+      padding: 8px 14px;
+      border-radius: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+      color: #f8fafc;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+    }
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn.primary {
+      background: linear-gradient(90deg, #7c3aed, #4f46e5, #06b6d4);
+      border-color: rgba(255, 255, 255, 0.24);
+      box-shadow: 0 8px 22px rgba(6, 182, 212, 0.25);
+    }
+    .btn.cyan {
+      background: rgba(34, 211, 238, 0.14);
+      border-color: rgba(34, 211, 238, 0.38);
+      color: #a5f3fc;
+    }
+    .btn.emerald {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #a7f3d0;
+    }
+    .btn.purple {
+      background: rgba(168, 85, 247, 0.16);
+      border-color: rgba(168, 85, 247, 0.42);
+      color: #e9d5ff;
+    }
+    .btn.amber {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #fde68a;
+    }
+    .btn.rose {
+      background: rgba(244, 63, 94, 0.15);
+      border-color: rgba(244, 63, 94, 0.4);
+      color: #fecdd3;
+    }
+
+    /* 4 KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .kpi-card {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .kpi-value {
+      font-size: 26px;
+      font-weight: 700;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      margin-top: 4px;
+    }
+
+    .kpi-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    /* Middle 2-Column Layout: Key Generator + Cloud Config */
+    .mid-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 16px;
+    }
+
+    .glass-panel {
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      box-shadow: 0 14px 36px rgba(0, 0, 0, 0.42);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .panel-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: #f8fafc;
+    }
+
+    /* Preset Duration Chips */
+    .duration-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .dur-chip {
+      padding: 7px 13px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      background: rgba(3, 6, 18, 0.7);
+      color: #cbd5e1;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.16s ease;
+    }
+    .dur-chip.active {
+      background: linear-gradient(90deg, rgba(124, 58, 237, 0.35), rgba(6, 182, 212, 0.35));
+      border-color: #22d3ee;
+      color: #ffffff;
+      box-shadow: 0 0 14px rgba(34, 211, 238, 0.25);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 125px 1fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .input-label {
+      display: block;
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 11px;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      background: rgba(3, 6, 18, 0.85);
+      color: #f8fafc;
+      font-family: inherit;
+      font-size: 12.5px;
+      outline: none;
+    }
+    .input-box:focus {
+      border-color: #22d3ee;
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.14);
+    }
+
+    /* Generated Key Showcase Box */
+    .generated-key-box {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .generated-key-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #6ee7b7;
+      letter-spacing: 0.02em;
+      word-break: break-all;
+      line-height: 1.45;
+      margin-top: 4px;
+      user-select: all;
+    }
+
+    /* Unused Keys Mini List */
+    .keys-mini-list {
+      max-height: 125px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-right: 4px;
+    }
+
+    .key-row-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 7px 11px;
+      border-radius: 10px;
+      background: rgba(3, 6, 18, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 11.5px;
+    }
+
+    /* Customer Table Section */
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .filter-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(3, 6, 18, 0.65);
+      color: #cbd5e1;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .filter-pill.active {
+      background: rgba(34, 211, 238, 0.18);
+      border-color: #22d3ee;
+      color: #a5f3fc;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 12.5px;
+    }
+
+    th {
+      padding: 11px 13px;
+      background: rgba(3, 6, 18, 0.9);
+      color: #94a3b8;
+      font-weight: 600;
+      font-size: 11.5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 11px 13px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .badge.online {
+      background: rgba(16, 185, 129, 0.16);
+      border: 1px solid rgba(16, 185, 129, 0.42);
+      color: #6ee7b7;
+    }
+    .badge.offline {
+      background: rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      color: #94a3b8;
+    }
+    .badge.active {
+      background: rgba(34, 211, 238, 0.14);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      color: #67e8f9;
+    }
+    .badge.expired {
+      background: rgba(245, 158, 11, 0.16);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fde68a;
+    }
+    .badge.disabled {
+      background: rgba(244, 63, 94, 0.16);
+      border: 1px solid rgba(244, 63, 94, 0.4);
+      color: #fda4af;
+    }
+
+    .action-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .mini-btn {
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      transition: background-color 0.15s ease;
+    }
+    .mini-btn:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* Modern Light-Dismiss <dialog closedby="any"> */
+    dialog.modern-modal {
+      margin: auto;
+      width: 92%;
+      max-width: 430px;
+      border-radius: 20px;
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      background: #080d21;
+      color: #f8fafc;
+      padding: 22px;
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85);
+    }
+    dialog.modern-modal::backdrop {
+      background-color: rgba(2, 4, 12, 0.72);
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .modal-desc {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 14px;
+      line-height: 1.45;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .toast-bar {
+      position: fixed;
+      bottom: 20px;
+      right: 24px;
+      padding: 11px 16px;
+      border-radius: 13px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(34, 211, 238, 0.45);
+      color: #a5f3fc;
+      font-size: 12.5px;
+      font-weight: 600;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.65);
+      z-index: 99;
+    }
+    .toast-bar[hidden] {
+      display: none;
+    }
+
+    @media (max-width: 1024px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .mid-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Header -->
+    <header class="top-bar">
+      <div class="brand-left">
+        <div class="brand-logo">
+          <div class="brand-logo-inner">
+            <img src="/assets/icon.png" alt="Logo" />
+          </div>
+        </div>
+        <div>
+          <h1 class="brand-title">DIGITALIKH GETWAY • ADMIN CONTROL CENTER (24/7 CLOUD)</h1>
+          <p class="brand-subtitle">គ្រប់គ្រងគណនី Gmail អតិថិជន • បង្កើត License Key • ទាត់ម៉ាស៊ីនចាស់ចេញស្វ័យប្រវត្តិ (1 Gmail = 1 Active PC)</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span class="live-pill">
+          <span class="pulse-dot"></span>
+          <span id="cloud-status-pill">Firebase 24/7 Connected</span>
+        </span>
+        <button type="button" id="btn-refresh-all" class="btn cyan">ធ្វើបច្ចុប្បន្នភាពទិន្នន័យ (Refresh)</button>
+      </div>
+    </header>
+
+    <!-- 4 KPI Cards -->
+    <section class="kpi-grid" aria-label="KPI Statistics">
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-label">គណនី Gmail សរុប</div>
+          <div id="kpi-total-accounts" class="kpi-value" style="color: #f8fafc;">0</div>
+        </div>
+        <div class="kpi-icon" style="background: rgba(34, 211, 238, 0.12); color: #22d3ee;">👤</div>
+      </div>
+
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-label">គណនីមាន License សកម្ម</div>
+          <div id="kpi-active-licenses" class="kpi-value" style="color: #67e8f9;">0</div>
+        </div>
+        <div class="kpi-icon" style="background: rgba(99, 102, 241, 0.15); color: #818cf8;">🛡️</div>
+      </div>
+
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-label">License Keys មិនទាន់ប្រើ</div>
+          <div id="kpi-unused-keys" class="kpi-value" style="color: #d8b4fe;">0</div>
+        </div>
+        <div class="kpi-icon" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">🔑</div>
+      </div>
+
+      <div class="kpi-card">
+        <div>
+          <div class="kpi-label">ម៉ាស៊ីនកំពុង Online ផ្ទាល់</div>
+          <div id="kpi-online-devices" class="kpi-value" style="color: #34d399;">0</div>
+        </div>
+        <div class="kpi-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">⚡</div>
+      </div>
+    </section>
+
+    <!-- Middle Grid: Key Generator + Cloud Database Settings -->
+    <section class="mid-grid">
+      <!-- Box 1: License Key Generator -->
+      <div class="glass-panel">
+        <div class="panel-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <div>
+            <span>១. បង្កើត License Key ថ្មីឱ្យភ្ញៀវ (1 Key ប្រើចុះឈ្មោះបាន 1 ដងគត់)</span>
+            <span style="font-size: 11px; color: #94a3b8; display: block; margin-top: 2px;">មិនបាច់ឱ្យភ្ញៀវផ្ញើ Machine ID មុនទេ • 🔒 1 Gmail = 1 Active PC</span>
+          </div>
+          <button type="button" id="btn-open-bulk-modal" class="btn" style="background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(6,182,212,0.35)); border: 1px solid rgba(168,85,247,0.55); color: #f3e8ff; font-weight: 600; font-size: 11px; padding: 6px 14px; border-radius: 9px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 4px 14px rgba(168,85,247,0.25);">
+            <span>📦 បង្កើត Key ច្រើនគ្រាប់ (Bulk Keys &amp; Excel)</span>
+          </button>
+        </div>
+
+        <div class="duration-chips" id="duration-preset-group">
+          <button type="button" class="dur-chip" data-days="1" data-trial="true" style="border-color: rgba(6,182,212,0.6); color: #22d3ee; font-weight: 700;">⚡ 1 ថ្ងៃ (Trial)</button>
+          <button type="button" class="dur-chip" data-days="3" data-trial="true" style="border-color: rgba(6,182,212,0.6); color: #22d3ee; font-weight: 700;">⚡ 3 ថ្ងៃ (Trial)</button>
+          <button type="button" class="dur-chip" data-days="7">7 ថ្ងៃ</button>
+          <button type="button" class="dur-chip active" data-days="30">1 ខែ (30 ថ្ងៃ)</button>
+          <button type="button" class="dur-chip" data-days="90">3 ខែ (90 ថ្ងៃ)</button>
+          <button type="button" class="dur-chip" data-days="180">6 ខែ (180 ថ្ងៃ)</button>
+          <button type="button" class="dur-chip" data-days="365">1 ឆ្នាំ (365 ថ្ងៃ)</button>
+          <button type="button" class="dur-chip" data-days="0" data-lifetime="true">Lifetime (រហូត)</button>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="input-custom-days" class="input-label">ចំនួនថ្ងៃ (វាយតាមចិត្ត)</label>
+            <input id="input-custom-days" type="number" min="0" value="30" class="input-box" />
+          </div>
+          <div>
+            <label for="input-customer-name" class="input-label">ឈ្មោះ User / ភ្ញៀវ</label>
+            <input id="input-customer-name" type="text" placeholder="ឧ. បងហ៊ាង VIP / Sokha" class="input-box" />
+          </div>
+          <div>
+            <label for="input-key-note" class="input-label">ចំណាំបន្ថែម (មិនដាក់ក៏បាន)</label>
+            <input id="input-key-note" type="text" placeholder="ឧ. Telegram @..." class="input-box" />
+          </div>
+          <button type="button" id="btn-generate-key" class="btn primary" style="height: 39px;">
+            + បង្កើត License Key ឥឡូវនេះ
+          </button>
+        </div>
+
+        <!-- Newly Generated Key Result -->
+        <div id="generated-key-result" class="generated-key-box" hidden>
+          <div>
+            <div style="font-size: 11px; color: #a7f3d0;" id="generated-key-meta">បានបង្កើត Key សុវត្ថិភាពខ្ពស់ (HMAC-SHA256 Signed)៖</div>
+            <div id="generated-key-text" class="generated-key-code">DIGITALIKH-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX</div>
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button type="button" id="btn-copy-just-key" class="btn emerald">ចម្លង Key</button>
+            <button type="button" id="btn-copy-telegram-msg" class="btn purple">ចម្លងសារពេញផ្ញើឱ្យភ្ញៀវតាម Telegram</button>
+          </div>
+        </div>
+
+        <!-- Unused Keys Inventory -->
+        <div>
+          <div style="font-size: 11.5px; color: #94a3b8; margin-bottom: 6px; font-weight: 600;">
+            បញ្ជី License Keys ដែលមិនទាន់ប្រើ (អាចចម្លងផ្ញើឱ្យភ្ញៀវ ឬលុបចោល)៖
+          </div>
+          <div id="unused-keys-list" class="keys-mini-list"></div>
+        </div>
+      </div>
+
+      <!-- Box 2: Cloud Database 24/7 Connection -->
+      <div class="glass-panel">
+        <div class="panel-title">
+          <span>២. ភ្ជាប់ Cloud Database 24/7 (Firebase Realtime Database)</span>
+        </div>
+
+        <div>
+          <label for="input-cloud-url" class="input-label">Firebase Realtime Database URL (Default 24/7)</label>
+          <input
+            id="input-cloud-url"
+            type="url"
+            spellcheck="false"
+            value="https://digitalikh-getway-default-rtdb.asia-southeast1.firebasedatabase.app"
+            class="input-box"
+          />
+        </div>
+
+        <div>
+          <label for="input-telegram-url" class="input-label">តំណភ្ជាប់ Telegram របស់ Admin (សម្រាប់ប៊ូតុងទិញ Key)</label>
+          <input
+            id="input-telegram-url"
+            type="text"
+            spellcheck="false"
+            value="@DigitalLicenseKHBot"
+            class="input-box"
+          />
+        </div>
+
+        <button type="button" id="btn-save-cloud" class="btn cyan" style="justify-content: center; padding: 10px;">
+          តេស្ត &amp; រក្សាទុក Cloud Database
+        </button>
+
+        <div style="padding: 11px 13px; border-radius: 12px; background: rgba(3, 6, 18, 0.65); border: 1px solid rgba(255, 255, 255, 0.07); font-size: 11.5px; color: #94a3b8; line-height: 1.55;">
+          <strong style="color: #e2e8f0;">របៀបដំណើរការស្វ័យប្រវត្តិ៖</strong><br />
+          • ភ្ញៀវយក Key ទៅចុះឈ្មោះជាមួយ Gmail របស់គាត់នៅលើកម្មវិធីផ្ទាល់។<br />
+          • ពេលភ្ញៀវ Login Gmail លើកុំព្យូទ័រថ្មី ម៉ាស៊ីនចាស់នឹងលោត Logout ក្នុងរយៈពេល 25 វិនាទី។<br />
+          • Admin អាចចុចបន្ថែមថ្ងៃ, ដាក់ Lifetime, ប្ដូរ Password, ឬទាត់ម៉ាស៊ីនភ្ញៀវចេញពីចម្ងាយបានភ្លាមៗ។
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom Section: Customer Gmail & Active PC Table -->
+    <section class="glass-panel">
+      <div class="table-toolbar">
+        <div>
+          <h2 class="panel-title">៣. តារាងគ្រប់គ្រងគណនី Gmail និងកុំព្យូទ័រភ្ញៀវទាំងអស់</h2>
+        </div>
+
+        <div class="filter-pills" id="account-filter-group">
+          <button type="button" class="filter-pill active" data-filter="all">ទាំងអស់</button>
+          <button type="button" class="filter-pill" data-filter="online">កំពុង Online</button>
+          <button type="button" class="filter-pill" data-filter="active">សកម្ម</button>
+          <button type="button" class="filter-pill" data-filter="expired">ផុតកំណត់</button>
+          <button type="button" class="filter-pill" data-filter="disabled">បានបិទ</button>
+        </div>
+
+        <div style="min-width: 260px;">
+          <input id="input-search-accounts" type="search" placeholder="ស្វែងរក ឈ្មោះ User, Gmail, កុំព្យូទ័រ, Machine ID..." class="input-box" />
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ឈ្មោះ User &amp; គណនី Gmail ភ្ញៀវ</th>
+              <th>ស្ថានភាពម៉ាស៊ីន</th>
+              <th>កុំព្យូទ័រកំពុងប្រើ (Device &amp; Machine ID)</th>
+              <th>សុពលភាព / ថ្ងៃនៅសល់</th>
+              <th>Key ចុងក្រោយ</th>
+              <th>គ្រប់គ្រងគណនីពីចម្ងាយ (Remote Actions)</th>
+            </tr>
+          </thead>
+          <tbody id="accounts-table-body">
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 28px; color: #94a3b8;">កំពុងទាញទិន្នន័យពី Firebase Realtime Database...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- MODAL 1: Add Days (+ថ្ងៃ) using <dialog closedby="any"> -->
+  <dialog id="dialog-add-days" class="modern-modal" closedby="any" aria-labelledby="title-add-days">
+    <form method="dialog" id="form-modal-add-days">
+      <h3 id="title-add-days" class="modal-title">បន្ថែមថ្ងៃប្រើប្រាស់ (+ថ្ងៃ)</h3>
+      <p id="desc-add-days" class="modal-desc">បន្ថែមថ្ងៃសុពលភាពទៅលើគណនី Gmail របស់ភ្ញៀវ៖</p>
+      <label for="modal-input-days" class="input-label">ចំនួនថ្ងៃដែលចង់បន្ថែម</label>
+      <input id="modal-input-days" type="number" min="1" value="30" class="input-box" required />
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close-dialog="dialog-add-days">បោះបង់</button>
+        <button type="submit" class="btn emerald">បញ្ជាក់ការបន្ថែមថ្ងៃ</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL 2: Reset Password (ប្ដូរ Password) using <dialog closedby="any"> -->
+  <dialog id="dialog-reset-pass" class="modern-modal" closedby="any" aria-labelledby="title-reset-pass">
+    <form method="dialog" id="form-modal-reset-pass">
+      <h3 id="title-reset-pass" class="modal-title">ប្ដូរពាក្យសម្ងាត់ថ្មីឱ្យភ្ញៀវ</h3>
+      <p id="desc-reset-pass" class="modal-desc">កំណត់ពាក្យសម្ងាត់ថ្មីសម្រាប់គណនី Gmail នេះ៖</p>
+      <label for="modal-input-pass" class="input-label">ពាក្យសម្ងាត់ថ្មី (យ៉ាងតិច ៤ តួអក្សរ)</label>
+      <input id="modal-input-pass" type="text" placeholder="បញ្ចូលពាក្យសម្ងាត់ថ្មី..." class="input-box" required />
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close-dialog="dialog-reset-pass">បោះបង់</button>
+        <button type="submit" class="btn purple">រក្សាទុកពាក្យសម្ងាត់ថ្មី</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL 3: Confirm Delete Account (លុបគណនី) using <dialog closedby="any"> -->
+  <dialog id="dialog-delete-acc" class="modern-modal" closedby="any" aria-labelledby="title-delete-acc">
+    <form method="dialog" id="form-modal-delete-acc">
+      <h3 id="title-delete-acc" class="modal-title" style="color: #fda4af;">បញ្ជាក់ការលុបគណនី Gmail</h3>
+      <p id="desc-delete-acc" class="modal-desc">តើអ្នកពិតជាចង់លុបគណនីនេះចេញពី Cloud Database មែនទេ?</p>
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close-dialog="dialog-delete-acc">បោះបង់</button>
+        <button type="submit" class="btn rose">លុបគណនីឥឡូវនេះ</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- MODAL 4: Edit User Name (កែឈ្មោះ User) using <dialog closedby="any"> -->
+  <dialog id="dialog-edit-name" class="modern-modal" closedby="any" aria-labelledby="title-edit-name">
+    <form method="dialog" id="form-modal-edit-name">
+      <h3 id="title-edit-name" class="modal-title" style="color: #fde68a;">កែប្រែឈ្មោះ User / ភ្ញៀវ</h3>
+      <p id="desc-edit-name" class="modal-desc">កំណត់ឈ្មោះសម្គាល់សម្រាប់គណនីភ្ញៀវនេះ៖</p>
+      <label for="modal-input-customer-name" class="input-label">ឈ្មោះ User / អតិថិជន</label>
+      <input id="modal-input-customer-name" type="text" placeholder="ឧ. បងហ៊ាង VIP / Sokha..." class="input-box" required />
+      <div class="modal-actions">
+        <button type="button" class="btn" data-close-dialog="dialog-edit-name">បោះបង់</button>
+        <button type="submit" class="btn amber">រក្សាទុកឈ្មោះ User</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Bulk Keys Modal -->
+  <dialog id="dialog-bulk-keys" class="modern-modal" closedby="any" aria-labelledby="title-bulk-keys" style="max-width: 640px; width: 95%;">
+    <div style="position: relative;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
+        <div>
+          <h3 id="title-bulk-keys" class="modal-title" style="color: #c084fc; font-size: 17px; display: flex; align-items: center; gap: 8px;">
+            <span>📦</span> បង្កើត License Key ច្រើនគ្រាប់ (Bulk Generator &amp; Export)
+          </h3>
+          <p class="modal-desc" style="margin-bottom: 0;">
+            បង្កើត License Key ម្ដងបានរហូតដល់ ១០០ គ្រាប់ សម្រាប់លក់ដុំ ឬចែកចាយទៅកាន់ Telegram និងទាញយកជា Excel/CSV
+          </p>
+        </div>
+        <button type="button" data-close-dialog="dialog-bulk-keys" style="background: none; border: none; color: #94a3b8; font-size: 18px; cursor: pointer; padding: 4px 8px;">✕</button>
+      </div>
+
+      <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px; margin-bottom: 14px;">
+        <label class="input-label" style="margin-bottom: 8px; display: block;">១. ជ្រើសរើសចំនួន Key (Count)</label>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="bulk-count-chips">
+          <button type="button" class="dur-chip active" data-count="5">5 Keys</button>
+          <button type="button" class="dur-chip" data-count="10">10 Keys</button>
+          <button type="button" class="dur-chip" data-count="20">20 Keys</button>
+          <button type="button" class="dur-chip" data-count="50">50 Keys</button>
+          <button type="button" class="dur-chip" data-count="100">100 Keys</button>
+        </div>
+
+        <label class="input-label" style="margin-top: 14px; margin-bottom: 8px; display: block;">២. ជ្រើសរើសប្រភេទកញ្ចប់ (Plan Duration)</label>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;" id="bulk-plan-chips">
+          <button type="button" class="dur-chip" data-days="1" data-trial="true" style="border-color: rgba(6,182,212,0.6); color: #22d3ee;">⚡ 1 ថ្ងៃ (Trial)</button>
+          <button type="button" class="dur-chip" data-days="3" data-trial="true" style="border-color: rgba(6,182,212,0.6); color: #22d3ee;">⚡ 3 ថ្ងៃ (Trial)</button>
+          <button type="button" class="dur-chip" data-days="7">7 ថ្ងៃ</button>
+          <button type="button" class="dur-chip active" data-days="30">1 ខែ (30 ថ្ងៃ)</button>
+          <button type="button" class="dur-chip" data-days="90">3 ខែ (90 ថ្ងៃ)</button>
+          <button type="button" class="dur-chip" data-days="180">6 ខែ (180 ថ្ងៃ)</button>
+          <button type="button" class="dur-chip" data-days="365">1 ឆ្នាំ (365 ថ្ងៃ)</button>
+          <button type="button" class="dur-chip" data-days="0" data-lifetime="true">Lifetime</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;">
+          <div>
+            <label for="bulk-input-customer" class="input-label">ឈ្មោះសម្គាល់ / Batch Tag</label>
+            <input id="bulk-input-customer" type="text" placeholder="ឧ. Batch-Khmer-Dec / VIP" class="input-box" style="width: 100%; box-sizing: border-box;" />
+          </div>
+          <div>
+            <label for="bulk-input-note" class="input-label">ចំណាំ / Telegram Admin</label>
+            <input id="bulk-input-note" type="text" placeholder="ឧ. ចែកចាយតាម Channel" class="input-box" style="width: 100%; box-sizing: border-box;" />
+          </div>
+        </div>
+
+        <div style="margin-top: 14px; text-align: right;">
+          <button type="button" id="btn-do-generate-bulk" class="btn primary" style="background: linear-gradient(135deg, #9333ea, #06b6d4); font-weight: 700; padding: 9px 18px; width: 100%; justify-content: center;">
+            🚀 បង្កើត Keys ទាំងអស់ឥឡូវនេះ
+          </button>
+        </div>
+      </div>
+
+      <!-- Bulk Result Area -->
+      <div id="bulk-result-area" style="display: none; background: rgba(8, 14, 30, 0.9); border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 14px; padding: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div style="font-size: 13px; font-weight: 700; color: #34d399;" id="bulk-result-meta">
+            ✓ បង្កើតបាន Keys ដោយជោគជ័យ!
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" id="btn-copy-bulk-telegram" class="btn" style="background: rgba(14, 165, 233, 0.2); border: 1px solid rgba(14, 165, 233, 0.5); color: #38bdf8; font-size: 11px; padding: 4px 10px;">
+              📋 ចម្លងសារ Telegram
+            </button>
+            <button type="button" id="btn-download-bulk-csv" class="btn" style="background: rgba(34, 197, 94, 0.2); border: 1px solid rgba(34, 197, 94, 0.5); color: #4ade80; font-size: 11px; padding: 4px 10px;">
+              📥 Export Excel (.csv)
+            </button>
+          </div>
+        </div>
+
+        <div id="bulk-keys-scroll" style="max-height: 160px; overflow-y: auto; background: rgba(0, 0, 0, 0.4); border-radius: 8px; padding: 8px 12px; font-family: monospace; font-size: 12px; line-height: 1.6; color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.05); user-select: text;">
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top: 14px;">
+        <button type="button" class="btn" data-close-dialog="dialog-bulk-keys">បិទផ្ទាំង (Close)</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div id="admin-toast" class="toast-bar" hidden></div>
+
+  <script>
+    (() => {
+      // MANDATORY fallback for browsers without native <dialog closedby="any"> support
+      document.querySelectorAll('dialog.modern-modal').forEach((dialog) => {
+        if (!('closedBy' in HTMLDialogElement.prototype)) {
+          dialog.addEventListener('click', (event) => {
+            if (event.target !== dialog) return;
+            const rect = dialog.getBoundingClientRect();
+            const isDialogContent = (
+              rect.top <= event.clientY &&
+              event.clientY <= rect.top + rect.height &&
+              rect.left <= event.clientX &&
+              event.clientX <= rect.left + rect.width
+            );
+            if (isDialogContent) return;
+            dialog.close();
+          });
+        }
+      });
+
+      document.querySelectorAll('[data-close-dialog]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const id = btn.getAttribute('data-close-dialog');
+          document.getElementById(id)?.close();
+        });
+      });
+
+      let allAccounts = [];
+      let allKeys = [];
+      let currentFilter = 'all';
+      let selectedIsLifetime = false;
+      let selectedIsTrial = false;
+      let lastGeneratedKeyObj = null;
+      let targetEmailForModal = '';
+
+      const toastEl = document.getElementById('admin-toast');
+      let toastTimer = null;
+      function showToast(msg) {
+        if (!toastEl) return;
+        toastEl.textContent = msg;
+        toastEl.hidden = false;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => { toastEl.hidden = true; }, 3200);
+      }
+
+      async function apiPost(url, payload) {
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload || {})
+        });
+        return await res.json();
+      }
+
+      // Preset duration chip selection
+      const customDaysInput = document.getElementById('input-custom-days');
+      document.querySelectorAll('#duration-preset-group .dur-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('#duration-preset-group .dur-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          const days = Number(chip.getAttribute('data-days') || 0);
+          selectedIsLifetime = chip.getAttribute('data-lifetime') === 'true' || days === 0;
+          selectedIsTrial = chip.getAttribute('data-trial') === 'true';
+          if (customDaysInput) {
+            customDaysInput.value = selectedIsLifetime ? 0 : days;
+          }
+        });
+      });
+
+      customDaysInput?.addEventListener('input', () => {
+        const val = Number(customDaysInput.value || 0);
+        selectedIsLifetime = val === 0;
+        selectedIsTrial = false;
+        document.querySelectorAll('#duration-preset-group .dur-chip').forEach((c) => {
+          c.classList.toggle('active', Number(c.getAttribute('data-days')) === val && !c.getAttribute('data-trial'));
+        });
+      });
+
+      // Generate Key
+      document.getElementById('btn-generate-key')?.addEventListener('click', async () => {
+        const days = Number(customDaysInput?.value || 0);
+        const isLifetime = (days === 0 || selectedIsLifetime) && !selectedIsTrial;
+        const isTrial = Boolean(selectedIsTrial);
+        const customerName = document.getElementById('input-customer-name')?.value || '';
+        const note = document.getElementById('input-key-note')?.value || '';
+        const res = await apiPost('/api/keys/generate', { durationDays: days, isLifetime, isTrial, customerName, note });
+        if (res && res.ok && res.keyData) {
+          lastGeneratedKeyObj = res.keyData;
+          const box = document.getElementById('generated-key-result');
+          const codeEl = document.getElementById('generated-key-text');
+          const metaEl = document.getElementById('generated-key-meta');
+          if (codeEl) codeEl.textContent = res.keyData.key;
+          const userTag = res.keyData.customerName ? ` • 👤 User: ${res.keyData.customerName}` : '';
+          if (metaEl) metaEl.textContent = `បានបង្កើត Key សុវត្ថិភាពខ្ពស់ (${res.keyData.plan}${userTag})៖`;
+          if (box) box.hidden = false;
+          showToast(`បានបង្កើត ${res.keyData.key} ជោគជ័យ!`);
+          await loadOverview();
+        }
+      });
+
+      document.getElementById('btn-copy-just-key')?.addEventListener('click', async () => {
+        if (!lastGeneratedKeyObj) return;
+        await navigator.clipboard.writeText(lastGeneratedKeyObj.key);
+        showToast('បានចម្លង License Key រួចរាល់ ✓');
+      });
+
+      document.getElementById('btn-copy-telegram-msg')?.addEventListener('click', async () => {
+        if (!lastGeneratedKeyObj) return;
+        const userLine = lastGeneratedKeyObj.customerName ? `👤 ឈ្មោះ User: ${lastGeneratedKeyObj.customerName}` : null;
+        const msg = [
+          '🎉 អាជ្ញាប័ណ្ណប្រើប្រាស់កម្មវិធី SastraGetWay (Cloud Gmail License)',
+          ...(userLine ? [userLine] : []),
+          `🔑 License Key: ${lastGeneratedKeyObj.key}`,
+          `⏳ កញ្ចប់សុពលភាព: ${lastGeneratedKeyObj.plan}`,
+          '',
+          '📌 របៀបចុះឈ្មោះប្រើប្រាស់៖',
+          '1. បើកកម្មវិធី SastraGetWay រួចចុចផ្ទាំង «Sign Up»',
+          '2. វាយបញ្ចូល Gmail របស់អ្នក + បង្កើត Password + ដាក់ License Key ខាងលើ',
+          '3. ពេលប្ដូរកុំព្យូទ័រថ្មី គ្រាន់តែ Sign In ជាមួយ Gmail + Password ដដែល (ម៉ាស៊ីនចាស់នឹង Logout ស្វ័យប្រវត្តិ)។'
+        ].join('\n');
+        await navigator.clipboard.writeText(msg);
+        showToast('បានចម្លងសារពេញសម្រាប់ផ្ញើឱ្យភ្ញៀវតាម Telegram ✓');
+      });
+
+      // Test & Save Cloud Database
+      document.getElementById('btn-save-cloud')?.addEventListener('click', async () => {
+        const cloudDatabaseUrl = document.getElementById('input-cloud-url')?.value || '';
+        const telegramUrl = document.getElementById('input-telegram-url')?.value || '';
+        const res = await apiPost('/api/cloud/save', { cloudDatabaseUrl, telegramUrl });
+        if (res && res.ok) {
+          showToast(res.message || 'រក្សាទុកជោគជ័យ!');
+          await loadOverview();
+        } else {
+          showToast(res?.reason || 'មិនអាចភ្ជាប់ Cloud Database បានទេ');
+        }
+      });
+
+      // Filter & Search
+      document.querySelectorAll('#account-filter-group .filter-pill').forEach((pill) => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('#account-filter-group .filter-pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          currentFilter = pill.getAttribute('data-filter') || 'all';
+          renderAccountsTable();
+        });
+      });
+
+      document.getElementById('input-search-accounts')?.addEventListener('input', () => {
+        renderAccountsTable();
+      });
+
+      function renderUnusedKeys() {
+        const listEl = document.getElementById('unused-keys-list');
+        if (!listEl) return;
+        const unused = allKeys.filter(k => !k.used);
+        if (unused.length === 0) {
+          listEl.innerHTML = '<div style="font-size: 11.5px; color: #64748b; padding: 6px 0;">មិនទាន់មាន License Key ទំនេរទេ។ សូមចុចបង្កើត Key ខាងលើ។</div>';
+          return;
+        }
+        listEl.innerHTML = unused.map((k) => {
+          const fullToken = k.licenseKey || k.key;
+          const shortPreview = fullToken.length > 56
+            ? `${fullToken.slice(0, 34)}...${fullToken.slice(-16)}`
+            : fullToken;
+          const delId = k.keyId || k.key;
+          return `
+          <div class="key-row-item">
+            <div style="min-width: 0; flex: 1;">
+              <div>
+                <strong style="color: #fde68a;">👤 ${k.customerName || k.name || 'VIP Customer'}</strong>
+                <span style="color: #67e8f9; font-family: monospace; margin-left: 8px; font-size: 11px;">[${k.keyId || 'KEY'}]</span>
+                <span style="color: #cbd5e1; margin-left: 6px;">(${k.plan})</span>${k.isTrial ? ' <span style="background:rgba(6,182,212,0.15); border:1px solid rgba(6,182,212,0.4); color:#22d3ee; font-size:10px; padding:1px 6px; border-radius:6px;">⚡ Trial</span>' : ''}
+                ${k.note ? `<span style="color: #94a3b8; margin-left: 6px;">• ${k.note}</span>` : ''}
+              </div>
+              <div style="color: #6ee7b7; font-family: monospace; font-size: 11px; margin-top: 3px; word-break: break-all;" title="${fullToken}">${shortPreview}</div>
+            </div>
+            <div style="display: flex; gap: 6px; flex-shrink: 0;">
+              <button type="button" class="mini-btn" data-copy-key="${fullToken}">ចម្លង Key</button>
+              <button type="button" class="mini-btn" style="color: #fda4af;" data-del-key="${delId}">លុប</button>
+            </div>
+          </div>
+        `;
+        }).join('');
+
+        listEl.querySelectorAll('[data-copy-key]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const key = btn.getAttribute('data-copy-key');
+            await navigator.clipboard.writeText(key);
+            showToast(`បានចម្លង ${key} ✓`);
+          });
+        });
+
+        listEl.querySelectorAll('[data-del-key]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const key = btn.getAttribute('data-del-key');
+            await apiPost('/api/keys/delete', { key });
+            showToast(`បានលុប ${key}`);
+            await loadOverview();
+          });
+        });
+      }
+
+      function renderAccountsTable() {
+        const tbody = document.getElementById('accounts-table-body');
+        if (!tbody) return;
+        const q = (document.getElementById('input-search-accounts')?.value || '').trim().toLowerCase();
+
+        const filtered = allAccounts.filter((acc) => {
+          if (currentFilter === 'online' && !acc.isOnline) return false;
+          if (currentFilter === 'active' && acc.computedState !== 'active') return false;
+          if (currentFilter === 'expired' && acc.computedState !== 'expired') return false;
+          if (currentFilter === 'disabled' && acc.computedState !== 'disabled') return false;
+
+          if (q) {
+            const hay = `${acc.customerName || ''} ${acc.email} ${acc.activeDevice?.deviceName || ''} ${acc.activeDevice?.machineId || ''} ${acc.lastKey || ''}`.toLowerCase();
+            if (!hay.includes(q)) return false;
+          }
+          return true;
+        });
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 26px; color: #64748b;">មិនមានទិន្នន័យគណនីត្រូវនឹងការស្វែងរកទេ។</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = filtered.map((acc) => {
+          const onlineBadge = acc.isOnline
+            ? '<span class="badge online"><span class="pulse-dot"></span>កំពុង Online</span>'
+            : '<span class="badge offline">Offline</span>';
+
+          let stateBadge = '<span class="badge active">សកម្ម</span>';
+          if (acc.computedState === 'expired') stateBadge = '<span class="badge expired">ផុតកំណត់</span>';
+          if (acc.computedState === 'disabled') stateBadge = '<span class="badge disabled">បានបិទសិទ្ធិ</span>';
+
+          const midDisplay = String(acc.activeDevice?.machineId || '').replace(/^SASTRA-/, 'DIGITALIKH-');
+          const devInfo = acc.activeDevice && acc.activeDevice.machineId
+            ? `<div><strong style="color:#f1f5f9;">${acc.activeDevice.deviceName || 'PC'}</strong></div>
+               <div style="font-family:monospace; font-size:11px; color:#67e8f9;">${midDisplay}</div>`
+            : '<span style="color:#64748b;">មិនទាន់មានម៉ាស៊ីន Login</span>';
+
+          const expDateStr = acc.isLifetime
+            ? 'មិនផុតកំណត់ (Lifetime)'
+            : (acc.expiresAt ? new Date(acc.expiresAt).toLocaleDateString() : '-');
+
+          const displayUser = acc.customerName || acc.email.split('@')[0];
+
+          return `
+            <tr>
+              <td>
+                <div style="font-weight:700; color:#fde68a; font-size:13px;">👤 ${displayUser}</div>
+                <div style="font-weight:600; color:#e2e8f0; font-size:11.5px; margin-top:2px;">${acc.email}</div>
+                <div style="margin-top:4px;">${stateBadge}${acc.isTrial ? ' <span class="badge" style="background:rgba(6,182,212,0.15); border:1px solid rgba(6,182,212,0.4); color:#22d3ee; font-size:10px; padding:1px 6px; border-radius:6px;">⚡ Trial</span>' : ''}</div>
+              </td>
+              <td>${onlineBadge}</td>
+              <td>${devInfo}</td>
+              <td>
+                <div style="font-weight:700; color:${acc.isLifetime ? '#c084fc' : '#6ee7b7'};">${acc.remainingText}</div>
+                <div style="font-size:11px; color:#94a3b8;">ផុតកំណត់៖ ${expDateStr}</div>
+              </td>
+              <td style="font-family:monospace; font-size:11px; color:#cbd5e1; max-width:210px; word-break:break-all;">${acc.lastKey || '-'}</td>
+              <td>
+                <div class="action-group">
+                  <button type="button" class="mini-btn" style="color:#fde68a;" data-act="edit-name" data-email="${acc.email}" data-name="${displayUser}">កែឈ្មោះ</button>
+                  <button type="button" class="mini-btn" style="color:#6ee7b7;" data-act="add-days" data-email="${acc.email}">+ថ្ងៃ</button>
+                  <button type="button" class="mini-btn" style="color:#d8b4fe;" data-act="lifetime" data-email="${acc.email}">ដាក់ Lifetime</button>
+                  <button type="button" class="mini-btn" style="color:#93c5fd;" data-act="password" data-email="${acc.email}">ប្ដូរ Password</button>
+                  <button type="button" class="mini-btn" style="color:#fcd34d;" data-act="logout" data-email="${acc.email}">Logout ម៉ាស៊ីន</button>
+                  <button type="button" class="mini-btn" style="color:#fdba74;" data-act="toggle" data-email="${acc.email}">
+                    ${acc.status === 'disabled' ? 'បើកគណនី' : 'បិទគណនី'}
+                  </button>
+                  <button type="button" class="mini-btn" style="color:#fda4af;" data-act="delete" data-email="${acc.email}">លុបគណនី</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+        tbody.querySelectorAll('[data-act]').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            const act = btn.getAttribute('data-act');
+            const email = btn.getAttribute('data-email');
+            targetEmailForModal = email;
+
+            if (act === 'edit-name') {
+              const curName = btn.getAttribute('data-name') || '';
+              document.getElementById('desc-edit-name').textContent = `កំណត់ឈ្មោះ User សម្រាប់គណនី៖ ${email}`;
+              const inputName = document.getElementById('modal-input-customer-name');
+              if (inputName) inputName.value = curName;
+              document.getElementById('dialog-edit-name').showModal();
+            } else if (act === 'add-days') {
+              document.getElementById('desc-add-days').textContent = `បន្ថែមថ្ងៃសុពលភាពទៅលើគណនី៖ ${email}`;
+              document.getElementById('dialog-add-days').showModal();
+            } else if (act === 'lifetime') {
+              await apiPost('/api/accounts/lifetime', { email });
+              showToast(`បានដាក់ Lifetime ឱ្យ ${email} រួចរាល់!`);
+              await loadOverview();
+            } else if (act === 'password') {
+              document.getElementById('desc-reset-pass').textContent = `ប្ដូរពាក្យសម្ងាត់ថ្មីសម្រាប់គណនី៖ ${email}`;
+              document.getElementById('modal-input-pass').value = '';
+              document.getElementById('dialog-reset-pass').showModal();
+            } else if (act === 'logout') {
+              await apiPost('/api/accounts/logout-device', { email });
+              showToast(`បានទាត់ម៉ាស៊ីនរបស់ ${email} ចេញពីប្រព័ន្ធហើយ!`);
+              await loadOverview();
+            } else if (act === 'toggle') {
+              const res = await apiPost('/api/accounts/toggle-status', { email });
+              showToast(`បានប្ដូរស្ថានភាពគណនី ${email} ទៅជា ${res.status}`);
+              await loadOverview();
+            } else if (act === 'delete') {
+              document.getElementById('desc-delete-acc').textContent = `តើអ្នកពិតជាចង់លុបគណនី ${email} ចេញពីប្រព័ន្ធមែនទេ?`;
+              document.getElementById('dialog-delete-acc').showModal();
+            }
+          });
+        });
+      }
+
+      // Modal form submissions
+      document.getElementById('form-modal-add-days')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const days = Number(document.getElementById('modal-input-days')?.value || 30);
+        await apiPost('/api/accounts/add-days', { email: targetEmailForModal, days });
+        document.getElementById('dialog-add-days')?.close();
+        showToast(`បានបន្ថែម +${days} ថ្ងៃឱ្យ ${targetEmailForModal}!`);
+        await loadOverview();
+      });
+
+      document.getElementById('form-modal-reset-pass')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newPassword = document.getElementById('modal-input-pass')?.value || '';
+        const res = await apiPost('/api/accounts/password', { email: targetEmailForModal, newPassword });
+        if (res && res.ok) {
+          document.getElementById('dialog-reset-pass')?.close();
+          showToast(`បានប្ដូរពាក្យសម្ងាត់ឱ្យ ${targetEmailForModal} ជោគជ័យ!`);
+        } else {
+          showToast(res?.reason || 'មិនអាចប្ដូរពាក្យសម្ងាត់បានទេ');
+        }
+      });
+
+      document.getElementById('form-modal-delete-acc')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await apiPost('/api/accounts/delete', { email: targetEmailForModal });
+        document.getElementById('dialog-delete-acc')?.close();
+        showToast(`បានលុបគណនី ${targetEmailForModal} រួចរាល់!`);
+        await loadOverview();
+      });
+
+      document.getElementById('form-modal-edit-name')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const customerName = document.getElementById('modal-input-customer-name')?.value || '';
+        const res = await apiPost('/api/accounts/update-name', { email: targetEmailForModal, customerName });
+        if (res && res.ok) {
+          document.getElementById('dialog-edit-name')?.close();
+          showToast(`បានរក្សាទុកឈ្មោះ User "${customerName}" រួចរាល់!`);
+          await loadOverview();
+        }
+      });
+
+      async function loadOverview() {
+        try {
+          const res = await fetch('/api/overview');
+          const data = await res.json();
+          if (!data || !data.ok) return;
+
+          document.getElementById('kpi-total-accounts').textContent = data.kpi.totalAccounts;
+          document.getElementById('kpi-active-licenses').textContent = data.kpi.activeLicenses;
+          document.getElementById('kpi-unused-keys').textContent = data.kpi.unusedKeys;
+          document.getElementById('kpi-online-devices').textContent = data.kpi.onlineDevices;
+
+          if (data.cloudConfig) {
+            const urlEl = document.getElementById('input-cloud-url');
+            const tgEl = document.getElementById('input-telegram-url');
+            if (urlEl && document.activeElement !== urlEl) urlEl.value = data.cloudConfig.cloudDatabaseUrl;
+            if (tgEl && document.activeElement !== tgEl) tgEl.value = data.cloudConfig.telegramUrl;
+          }
+
+          allAccounts = data.accounts || [];
+          allKeys = data.keys || [];
+          renderUnusedKeys();
+          renderAccountsTable();
+        } catch (err) {
+          document.getElementById('cloud-status-pill').textContent = 'Offline / Reconnecting...';
+        }
+      }
+
+      document.getElementById('btn-refresh-all')?.addEventListener('click', () => {
+        loadOverview();
+        showToast('បានធ្វើបច្ចុប្បន្នភាពទិន្នន័យពី Firebase ✓');
+      });
+
+      loadOverview();
+      setInterval(loadOverview, 12000);
+    })();
+
+      // === BULK KEY GENERATOR LOGIC ===
+      let bulkSelectedCount = 5;
+      let bulkSelectedDays = 30;
+      let bulkSelectedIsLifetime = false;
+      let bulkSelectedIsTrial = false;
+      let lastBulkKeysList = [];
+
+      document.getElementById('btn-open-bulk-modal')?.addEventListener('click', () => {
+        document.getElementById('dialog-bulk-keys')?.showModal();
+      });
+
+      document.querySelectorAll('#bulk-count-chips .dur-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('#bulk-count-chips .dur-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          bulkSelectedCount = Number(chip.getAttribute('data-count') || 5);
+        });
+      });
+
+      document.querySelectorAll('#bulk-plan-chips .dur-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('#bulk-plan-chips .dur-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          bulkSelectedDays = Number(chip.getAttribute('data-days') || 30);
+          bulkSelectedIsLifetime = chip.getAttribute('data-lifetime') === 'true' || bulkSelectedDays === 0;
+          bulkSelectedIsTrial = chip.getAttribute('data-trial') === 'true';
+        });
+      });
+
+      document.getElementById('btn-do-generate-bulk')?.addEventListener('click', async () => {
+        const btn = document.getElementById('btn-do-generate-bulk');
+        const count = bulkSelectedCount;
+        const durationDays = bulkSelectedDays;
+        const isLifetime = bulkSelectedIsLifetime && !bulkSelectedIsTrial;
+        const isTrial = bulkSelectedIsTrial;
+        const customerName = document.getElementById('bulk-input-customer')?.value || '';
+        const note = document.getElementById('bulk-input-note')?.value || '';
+
+        btn.disabled = true;
+        btn.textContent = '⏳ កំពុងបង្កើត Keys...';
+
+        try {
+          const res = await apiPost('/api/keys/generate-bulk', {
+            count,
+            durationDays,
+            isLifetime,
+            isTrial,
+            customerName,
+            note
+          });
+
+          if (res && res.ok && Array.isArray(res.keys)) {
+            lastBulkKeysList = res.keys;
+            const area = document.getElementById('bulk-result-area');
+            const meta = document.getElementById('bulk-result-meta');
+            const scroll = document.getElementById('bulk-keys-scroll');
+
+            if (area) area.style.display = 'block';
+            if (meta) meta.textContent = `✓ បង្កើតបាន ${res.count} Keys (${res.plan}) ដោយជោគជ័យ!`;
+            if (scroll) {
+              scroll.innerHTML = res.keys.map((k, idx) => `<div><span style="color:#94a3b8;">${idx + 1}.</span> <strong style="color:#38bdf8;">${k.key}</strong> <span style="font-size:10px; color:#a78bfa;">(${k.plan})</span></div>`).join('');
+            }
+            showToast(`បានបង្កើត ${res.count} Keys ដោយជោគជ័យ!`);
+            await loadOverview();
+          } else {
+            showToast(res?.error || 'បរាជ័យក្នុងការបង្កើត Bulk Keys');
+          }
+        } catch (err) {
+          showToast('បញ្ហា Server: ' + err.message);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = '🚀 បង្កើត Keys ទាំងអស់ឥឡូវនេះ';
+        }
+      });
+
+      // Copy bulk keys formatted for Telegram
+      document.getElementById('btn-copy-bulk-telegram')?.addEventListener('click', async () => {
+        if (!lastBulkKeysList.length) return;
+        const plan = lastBulkKeysList[0]?.plan || '';
+        const lines = [
+          `🎉 បញ្ជី License Keys សម្រាប់ SastraGetWay (${lastBulkKeysList.length} Keys)`,
+          `⏳ កញ្ចប់សុពលភាព: ${plan}`,
+          `📅 ថ្ងៃបង្កើត: ${new Date().toLocaleDateString('km-KH')}`,
+          '----------------------------------------',
+          ...lastBulkKeysList.map((k, i) => `${i + 1}. \`${k.key}\``),
+          '----------------------------------------',
+          '🔒 សម្គាល់៖ 1 Key ប្រើចុះឈ្មោះគណនី Gmail បាន 1 លើកគត់ និងភ្ជាប់ជាមួយ 1 Active PC។'
+        ];
+        await navigator.clipboard.writeText(lines.join('\n'));
+        showToast(`បានចម្លងសារ Telegram (${lastBulkKeysList.length} Keys) រួចរាល់ ✓`);
+      });
+
+      // Export bulk keys to CSV / Excel
+      document.getElementById('btn-download-bulk-csv')?.addEventListener('click', () => {
+        if (!lastBulkKeysList.length) return;
+        const headers = ['No', 'License_Key', 'Plan', 'Days', 'Is_Trial', 'Customer_Name', 'Note', 'Created_At'];
+        const csvRows = [headers.join(',')];
+        lastBulkKeysList.forEach((k, idx) => {
+          const row = [
+            idx + 1,
+            `"${k.key}"`,
+            `"${k.plan || ''}"`,
+            k.durationDays || 0,
+            k.isTrial ? 'TRUE' : 'FALSE',
+            `"${(k.customerName || '').replace(/"/g, '""')}"`,
+            `"${(k.note || '').replace(/"/g, '""')}"`,
+            `"${k.createdAt || ''}"`
+          ];
+          csvRows.push(row.join(','));
+        });
+        const csvContent = '\uFEFF' + csvRows.join('\r\n'); // UTF-8 BOM for Excel
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const dateStr = new Date().toISOString().slice(0, 10);
+        a.href = url;
+        a.download = `SastraGetWay_Bulk_Keys_${lastBulkKeysList.length}_${dateStr}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast(`បានទាញយក File Excel/CSV (${lastBulkKeysList.length} Keys) ✓`);
+      });
+  </script>
+</body>
+</html>

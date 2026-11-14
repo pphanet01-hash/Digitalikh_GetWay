@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; script-src 'self';" />
+  <title>SastraGetWay — Sign In</title>
+  <style>
+    @font-face {
+      font-family: 'Kantumruy Pro';
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: swap;
+      src: url('./fonts/KantumruyPro-Variable.ttf') format('truetype-variations'),
+           url('./fonts/kantumruy-pro-khmer-variable.woff2') format('woff2'),
+           url('./KantumruyPro-Variable.ttf') format('truetype'),
+           local('Kantumruy Pro');
+    }
+
+    @font-face {
+      font-family: 'Kantumruy Pro';
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url('./fonts/kantumruy-pro-400.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Kantumruy Pro';
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+      src: url('./fonts/kantumruy-pro-500.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Kantumruy Pro';
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url('./fonts/kantumruy-pro-600.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Kantumruy Pro';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('./fonts/kantumruy-pro-700.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Kantumruy Pro';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('./fonts/kantumruy-pro-latin-400.woff2') format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    @property --border-angle {
+      syntax: '<angle>';
+      inherits: false;
+      initial-value: 0deg;
+    }
+
+    :root {
+      /* MANDATORY: Transitions to intrinsic keywords are disabled by default for compatibility */
+      interpolate-size: allow-keywords;
+      --text: #fffbeb;
+      --muted: #fde68a;
+      --gold: #fbbf24;
+      --amber: #f59e0b;
+      --coral: #fb7185;
+      --sunset-orange: #f97316;
+      --twilight-violet: #c084fc;
+      --danger: #fb7185;
+      --warn: #fbbf24;
+      --ok: #34d399;
+      --rx: 0deg;
+      --ry: 0deg;
+      --mx: 50%;
+      --my: 30%;
+      --bg-tx: 0px;
+      --bg-ty: 0px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      font-family: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      background-color: #140d1f;
+      color: var(--text);
+      font-family: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      perspective: 1100px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    button, input, select, textarea, label {
+      font-family: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    /* Parallax Sunset Cat Wallpaper Layer */
+    .bg-scene {
+      position: fixed;
+      inset: -18px;
+      background-image:
+        url('./Piceture/aea4f4d819904679173d0ac97bb57737.jpg'),
+        url('./assets/login-bg.jpg');
+      background-position: center center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transform: translate3d(var(--bg-tx), var(--bg-ty), 0) scale(1.03);
+      will-change: transform;
+      z-index: 0;
+      filter: saturate(1.08) contrast(1.03);
+    }
+
+    /* Warm Sunset Sun-Ray & Vignette Overlay */
+    .bg-vignette {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(45% 42% at 62% 50%, rgba(251, 191, 36, 0.22), transparent 72%),
+        linear-gradient(90deg, rgba(16, 10, 26, 0.04) 0%, rgba(16, 10, 26, 0.18) 52%, rgba(14, 9, 24, 0.56) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Interactive JS Firefly / Golden Sun-Motes Canvas */
+    #sunset-particles {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    /* Frameless Top Bar with Window Controls & Motion Toggle */
+    .titlebar {
+      position: relative;
+      z-index: 10;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 14px 0;
+      -webkit-app-region: drag;
+      flex-shrink: 0;
+    }
+
+    .scene-pill {
+      -webkit-app-region: no-drag;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(24, 15, 34, 0.55);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(251, 191, 36, 0.28);
+      color: rgba(255, 251, 235, 0.88);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.15s, border-color 0.15s;
+    }
+
+    .scene-pill:hover {
+      background: rgba(38, 22, 50, 0.72);
+      border-color: rgba(251, 191, 36, 0.55);
+    }
+
+    .sun-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fbbf24;
+      box-shadow: 0 0 9px #fbbf24;
+    }
+
+    .win-controls {
+      display: flex;
+      gap: 5px;
+      -webkit-app-region: no-drag;
+      background: rgba(24, 15, 34, 0.58);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      border-radius: 9px;
+      padding: 2px;
+    }
+
+    .win-btn {
+      width: 28px;
+      height: 24px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: rgba(255, 251, 235, 0.85);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: background-color 0.15s, color 0.15s;
+    }
+    .win-btn:hover {
+      background: rgba(251, 191, 36, 0.18);
+      color: #ffffff;
+    }
+    .win-btn.close:hover {
+      background: rgba(244, 63, 94, 0.8);
+      color: #ffffff;
+    }
+
+    /* Main Stage — Card positioned on the right so the Selfie Cat on the left is 100% clear */
+    .stage {
+      position: relative;
+      z-index: 5;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 50px 24px 32px;
+    }
+
+    /* Sunset-Golden & Twilight Frosted Glass Card with 3D Tilt */
+    .auth-card {
+      position: relative;
+      width: 392px;
+      border-radius: 26px;
+      padding: 25px 28px 22px;
+      background:
+        radial-gradient(240px circle at var(--mx) var(--my), rgba(251, 191, 36, 0.14), transparent 70%),
+        linear-gradient(
+          160deg,
+          rgba(34, 21, 46, 0.68) 0%,
+          rgba(20, 14, 32, 0.78) 55%,
+          rgba(36, 19, 34, 0.74) 100%
+        );
+      backdrop-filter: blur(22px) saturate(165%);
+      -webkit-backdrop-filter: blur(22px) saturate(165%);
+      box-shadow:
+        0 0 34px rgba(249, 115, 22, 0.32),
+        0 26px 60px rgba(8, 5, 16, 0.72),
+        inset 0 1px 0 rgba(255, 251, 235, 0.22),
+        inset 0 0 24px rgba(251, 191, 36, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transform: rotateX(var(--rx)) rotateY(var(--ry));
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    /* Animated Sunset-Gold & Coral-Violet Conic Border Rim */
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1.7px;
+      background: conic-gradient(
+        from var(--border-angle) at 50% 50%,
+        #fde047 0deg,
+        #fb923c 70deg,
+        rgba(244, 114, 182, 0.45) 130deg,
+        #c084fc 185deg,
+        rgba(251, 146, 60, 0.4) 245deg,
+        #f97316 305deg,
+        #fde047 360deg
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      @media (prefers-reduced-motion: no-preference) {
+        animation: spinBorder 8s linear infinite;
+      }
+    }
+
+    @keyframes spinBorder {
+      to {
+        --border-angle: 360deg;
+      }
+    }
+
+    /* Warm Sunset Corner Bloom Highlights */
+    .auth-card::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 28px;
+      background:
+        radial-gradient(120px 80px at 95% 5%, rgba(253, 224, 71, 0.42), transparent 70%),
+        radial-gradient(120px 80px at 95% 95%, rgba(249, 115, 22, 0.42), transparent 70%),
+        radial-gradient(120px 80px at 5% 95%, rgba(236, 72, 153, 0.36), transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(9px);
+    }
+
+    /* Header: App Logo + Sunset Brand Title + Subtitle */
+    .brand-head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+    }
+
+    .logo-box {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: #070916;
+      border: 1.5px solid rgba(251, 191, 36, 0.65);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.6),
+        0 0 22px rgba(249, 115, 22, 0.42),
+        inset 0 1px 0 rgba(255, 255, 255, 0.28);
+      display: grid;
+      place-items: center;
+      margin-bottom: 3px;
+      overflow: hidden;
+      transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.25s ease;
+    }
+
+    .logo-box:hover {
+      transform: scale(1.06) rotate(-2deg);
+      box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.65),
+        0 0 28px rgba(251, 191, 36, 0.65);
+    }
+
+    .logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
+    .brand-title {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      color: #fffbeb;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+    }
+
+    .brand-title .accent {
+      background: linear-gradient(135deg, #fef08a 0%, #fb923c 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0 14px rgba(249, 115, 22, 0.48));
+    }
+
+    .brand-subtitle {
+      font-size: 12.5px;
+      color: rgba(254, 243, 199, 0.82);
+      font-weight: 400;
+    }
+
+    /* Pill-Shaped Segmented Switcher (Sign In | Sign Up) */
+    .tab-switcher {
+      position: relative;
+      width: 248px;
+      height: 37px;
+      margin: 2px auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 3px;
+      border-radius: 999px;
+      background: rgba(15, 10, 24, 0.72);
+      border: 1px solid rgba(251, 191, 36, 0.22);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.55);
+    }
+
+    .tab-glider {
+      position: absolute;
+      top: 3px;
+      bottom: 3px;
+      left: 3px;
+      width: calc(50% - 3px);
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f59e0b 0%, #f97316 52%, #ec4899 100%);
+      box-shadow:
+        0 0 18px rgba(249, 115, 22, 0.72),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .tab-switcher[data-active="register"] .tab-glider {
+      transform: translateX(100%);
+    }
+
+    .tab-btn {
+      position: relative;
+      z-index: 1;
+      border: 0;
+      background: none;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: rgba(254, 243, 199, 0.74);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .tab-btn[aria-selected="true"] {
+      color: #ffffff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+    }
+
+    /* Discrete Animated Auth Panes */
+    .auth-pane {
+      display: block;
+      opacity: 1;
+      translate: 0 0;
+      /* MANDATORY: Use transition-behavior: allow-discrete for display transition */
+      transition: display 0.24s, opacity 0.24s ease-out, translate 0.24s ease-out;
+      transition-behavior: allow-discrete;
+    }
+    @starting-style {
+      .auth-pane {
+        opacity: 0;
+        translate: 0 6px;
+      }
+    }
+    .auth-pane:where([hidden], [data-closing]) {
+      opacity: 0;
+      translate: 0 -6px;
+    }
+    .auth-pane[hidden] {
+      display: none;
+    }
+
+    /* Form Controls */
+    .form-stack {
+      display: grid;
+      gap: 11px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .control {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .control .lead {
+      position: absolute;
+      left: 14px;
+      color: rgba(254, 243, 199, 0.78);
+      pointer-events: none;
+      display: grid;
+      transition: color 0.18s, transform 0.18s;
+    }
+
+    .text-input {
+      width: 100%;
+      height: 43px;
+      padding: 0 42px 0 42px;
+      border-radius: 12px;
+      border: 1px solid rgba(254, 243, 199, 0.2);
+      background: rgba(18, 13, 30, 0.68);
+      color: #fffbeb;
+      font: inherit;
+      font-size: 13px;
+      outline: none;
+      user-select: text;
+      box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.18s, box-shadow 0.18s, background-color 0.18s;
+    }
+
+    .text-input.mono {
+      font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+      letter-spacing: 0.04em;
+    }
+
+    .text-input::placeholder {
+      color: rgba(254, 243, 199, 0.58);
+    }
+
+    .text-input:hover {
+      border-color: rgba(251, 191, 36, 0.38);
+    }
+
+    .text-input:focus {
+      background: rgba(24, 16, 38, 0.86);
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.22);
+    }
+
+    .control:focus-within .lead {
+      color: #fde047;
+      transform: scale(1.08);
+    }
+
+    .trail-btn {
+      position: absolute;
+      right: 10px;
+      width: 28px;
+      height: 28px;
+      border: 0;
+      border-radius: 7px;
+      background: transparent;
+      color: rgba(254, 243, 199, 0.75);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: color 0.15s, background-color 0.15s;
+    }
+
+    .trail-btn:hover {
+      color: #fde047;
+      background: rgba(251, 191, 36, 0.14);
+    }
+
+    .trail-btn.badge {
+      width: auto;
+      padding: 0 8px;
+      height: 25px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fde047;
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(251, 191, 36, 0.38);
+    }
+
+    .trail-btn.badge:hover {
+      background: rgba(245, 158, 11, 0.32);
+      color: #ffffff;
+    }
+
+    /* Remember Me & Forgot/Renew Row */
+    .meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1px 2px;
+      font-size: 12px;
+    }
+
+    .remember-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: rgba(255, 251, 235, 0.9);
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .remember-check {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 5px;
+      border: 1px solid rgba(251, 191, 36, 0.65);
+      background: rgba(20, 14, 32, 0.8);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .remember-check:checked {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      border-color: #fde047;
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.6);
+    }
+
+    .remember-check:checked::after {
+      content: '';
+      width: 4px;
+      height: 8px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translate(-0.5px, -0.5px);
+    }
+
+    .link-btn {
+      border: 0;
+      background: none;
+      color: #fcd34d;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.15s;
+    }
+
+    .link-btn:hover {
+      color: #fb923c;
+      text-decoration: underline;
+    }
+
+    /* Expandable Renew Key Drawer */
+    .renew-drawer {
+      block-size: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: block-size 0.26s ease, opacity 0.22s ease;
+    }
+
+    .renew-drawer.is-expanded {
+      block-size: auto;
+      opacity: 1;
+    }
+
+    .renew-inner {
+      padding-top: 2px;
+    }
+
+    /* Feedback Alert Banner */
+    .feedback-banner {
+      display: flex;
+      gap: 7px;
+      align-items: flex-start;
+      padding: 8px 11px;
+      border-radius: 10px;
+      font-size: 11.5px;
+      line-height: 1.4;
+      border: 1px solid transparent;
+      font-family: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      opacity: 1;
+      transition: display 0.2s, opacity 0.2s;
+      transition-behavior: allow-discrete;
+    }
+    @starting-style {
+      .feedback-banner {
+        opacity: 0;
+      }
+    }
+    .feedback-banner[hidden] {
+      display: none;
+      opacity: 0;
+    }
+    .feedback-banner.error {
+      background: rgba(244, 63, 94, 0.18);
+      border-color: rgba(251, 113, 133, 0.42);
+      color: #fecdd3;
+    }
+    .feedback-banner.warn {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(251, 191, 36, 0.42);
+      color: #fde68a;
+    }
+    .feedback-banner.success {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: rgba(52, 211, 153, 0.42);
+      color: #a7f3d0;
+    }
+
+    /* Primary Golden Sunset Submit Button with Shimmer & JS Ripple */
+    .submit-btn {
+      position: relative;
+      overflow: hidden;
+      margin-top: 2px;
+      height: 44px;
+      width: 100%;
+      border: 1px solid rgba(254, 240, 138, 0.42);
+      border-radius: 12px;
+      background: linear-gradient(90deg, #f59e0b 0%, #ea580c 48%, #db2777 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+      box-shadow:
+        0 6px 24px rgba(234, 88, 12, 0.55),
+        0 0 16px rgba(251, 191, 36, 0.38),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      transition: filter 0.15s, transform 0.1s, box-shadow 0.15s;
+    }
+
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 55%;
+      left: -75%;
+      background: linear-gradient(
+        105deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.28) 50%,
+        transparent 100%
+      );
+      pointer-events: none;
+      @media (prefers-reduced-motion: no-preference) {
+        animation: btnShimmer 4.2s ease-in-out infinite;
+      }
+    }
+
+    @keyframes btnShimmer {
+      0%, 55% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(340%);
+      }
+    }
+
+    .submit-btn:hover {
+      filter: brightness(1.07);
+      box-shadow:
+        0 8px 28px rgba(249, 115, 22, 0.72),
+        0 0 20px rgba(253, 224, 71, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    }
+
+    .submit-btn:active {
+      transform: translateY(1px);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.65;
+      cursor: progress;
+    }
+
+    .js-ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 251, 235, 0.55) 0%, transparent 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    /* Bottom Switch Prompt */
+    .card-footer {
+      text-align: center;
+      font-size: 12.5px;
+      color: rgba(254, 243, 199, 0.88);
+      padding-top: 3px;
+    }
+
+    .card-footer .switch-link {
+      border: 0;
+      background: none;
+      color: #fde047;
+      font-weight: 700;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+      margin-left: 4px;
+      transition: color 0.15s;
+    }
+
+    .card-footer .switch-link:hover {
+      color: #fb923c;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tab-glider, .auth-pane, .renew-drawer, .feedback-banner, .logo-box {
+        transition: none !important;
+        translate: none !important;
+      }
+      .auth-card, .bg-scene {
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Parallax Sunset Cat Background -->
+  <div id="bg-layer" class="bg-scene" aria-hidden="true"></div>
+  <div class="bg-vignette" aria-hidden="true"></div>
+  <canvas id="sunset-particles" aria-hidden="true"></canvas>
+
+  <!-- Frameless Window Controls & Ambient Motion Toggle -->
+  <header class="titlebar">
+    <button type="button" id="btn-toggle-motion" class="scene-pill" aria-pressed="true" title="Pause / Resume Sunset Fireflies & 3D Motion">
+      <span class="sun-dot"></span>
+      <span id="motion-status-label">Sunset Live FX</span>
+    </button>
+
+    <div class="win-controls">
+      <button type="button" id="btn-win-min" class="win-btn" aria-label="Minimize" title="Minimize">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+      </button>
+      <button type="button" id="btn-win-max" class="win-btn" aria-label="Maximize" title="Maximize">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+      </button>
+      <button type="button" id="btn-win-close" class="win-btn close" aria-label="Close" title="Close">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Right-Aligned Sunset Glass Login Card -->
+  <main class="stage">
+    <section id="auth-card" class="auth-card" aria-label="Sign in to DIGITALIKH GETWAY">
+      <!-- App Logo + Title -->
+      <div class="brand-head">
+        <div class="logo-box">
+          <img src="./assets/icon.png" alt="SastraGetWay Logo" />
+        </div>
+        <h1 class="brand-title">DIGITALIKH <span class="accent">GETWAY</span></h1>
+        <p id="auth-subtitle" class="brand-subtitle">Sign in to your account</p>
+      </div>
+
+      <!-- Pill Switcher: Sign In | Sign Up -->
+      <div class="tab-switcher" id="auth-tab-switcher" data-active="login" role="tablist">
+        <div class="tab-glider" aria-hidden="true"></div>
+        <button type="button" role="tab" id="tab-btn-login" aria-selected="true" aria-controls="pane-login" class="tab-btn">
+          Sign In
+        </button>
+        <button type="button" role="tab" id="tab-btn-register" aria-selected="false" aria-controls="pane-register" class="tab-btn">
+          Sign Up
+        </button>
+      </div>
+
+      <!-- Status / Error Alert Banner -->
+      <div id="auth-feedback" class="feedback-banner error" role="alert" hidden></div>
+
+      <!-- TAB 1: SIGN IN -->
+      <div id="pane-login" class="auth-pane" role="tabpanel" aria-labelledby="tab-btn-login">
+        <form id="form-login" class="form-stack" novalidate>
+          <div class="control">
+            <label for="login-email" class="sr-only">Email or Username</label>
+            <span class="lead">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg>
+            </span>
+            <input id="login-email" name="username" type="email" inputmode="email" autocomplete="username" spellcheck="false" enterkeyhint="next" placeholder="Email or Username" class="text-input" required />
+          </div>
+
+          <div class="control">
+            <label for="login-password" class="sr-only">Password</label>
+            <span class="lead">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+            </span>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" enterkeyhint="done" placeholder="Password" class="text-input" required />
+            <button type="button" class="trail-btn" data-toggle-pass="login-password" aria-label="Show password"></button>
+          </div>
+
+          <!-- Expandable License Key Drawer (for expired accounts) -->
+          <div id="login-renew-drawer" class="renew-drawer" hidden>
+            <div class="renew-inner">
+              <div class="control">
+                <label for="login-renew-key" class="sr-only">Renew License Key</label>
+                <span class="lead">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M17 6l3 3M14 9l2 2"/></svg>
+                </span>
+                <input id="login-renew-key" name="renewKey" type="text" spellcheck="false" placeholder="Paste License Key (eyJ...)" class="text-input mono" />
+                <button type="button" class="trail-btn badge" data-paste-target="login-renew-key">Paste</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Remember me & Forgot/Renew Key -->
+          <div class="meta-row">
+            <label class="remember-label">
+              <input type="checkbox" id="remember-me" class="remember-check" checked />
+              <span>Remember me</span>
+            </label>
+            <button type="button" id="btn-toggle-renew" class="link-btn" aria-expanded="false" aria-controls="login-renew-drawer" title="បញ្ចូល License Key ថ្មី ឬទាក់ទង Admin">
+              Forgot Password?
+            </button>
+          </div>
+
+          <button type="submit" id="btn-submit-login" class="submit-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <span>Sign In</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- TAB 2: SIGN UP (REGISTER WITH GMAIL + LICENSE KEY) -->
+      <div id="pane-register" class="auth-pane" role="tabpanel" aria-labelledby="tab-btn-register" hidden>
+        <form id="form-register" class="form-stack" novalidate>
+          <div class="control">
+            <label for="reg-email" class="sr-only">Gmail Address</label>
+            <span class="lead">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg>
+            </span>
+            <input id="reg-email" name="email" type="email" inputmode="email" autocomplete="username" spellcheck="false" enterkeyhint="next" placeholder="Gmail (name@gmail.com)" class="text-input" required />
+          </div>
+
+          <div class="control">
+            <label for="reg-password" class="sr-only">Create Password</label>
+            <span class="lead">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/><circle cx="12" cy="16" r="1"/></svg>
+            </span>
+            <input id="reg-password" name="new-password" type="password" autocomplete="new-password" enterkeyhint="next" placeholder="Create Password" class="text-input" required />
+            <button type="button" class="trail-btn" data-toggle-pass="reg-password" aria-label="Show password"></button>
+          </div>
+
+          <div class="control">
+            <label for="reg-license-key" class="sr-only">License Key</label>
+            <span class="lead">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M17 6l3 3M14 9l2 2"/></svg>
+            </span>
+            <input id="reg-license-key" name="licenseKey" type="text" spellcheck="false" enterkeyhint="done" placeholder="Paste License Key (eyJ...)" class="text-input mono" required />
+            <button type="button" class="trail-btn badge" data-paste-target="reg-license-key" title="Paste License Key">Paste</button>
+          </div>
+
+          <button type="submit" id="btn-submit-register" class="submit-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            <span>Sign Up</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Footer Switch Prompt -->
+      <div class="card-footer">
+        <span id="footer-prompt-text">Don't have an account?</span>
+        <button type="button" id="btn-footer-switch" class="switch-link">Sign Up</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="./activate.js"></script>
+</body>
+</html>

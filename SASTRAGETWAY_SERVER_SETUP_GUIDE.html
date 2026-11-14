@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>សៀវភៅណែនាំគ្រប់គ្រង Server & License Key — SastraGetWay</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-card: rgba(18, 24, 43, 0.85);
+      --bg-card-hover: rgba(28, 37, 65, 0.95);
+      --accent: #6366f1;
+      --accent-gradient: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+      --accent-cyan: #06b6d4;
+      --accent-green: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-red: #ef4444;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.35);
+      --code-bg: #030712;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Kantumruy Pro', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 40px 20px;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(236, 72, 153, 0.12) 0%, transparent 40%);
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 45px;
+      padding-bottom: 30px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid var(--border-accent);
+      padding: 6px 16px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #a5b4fc;
+      margin-bottom: 16px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-green);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-accent);
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    h2 span.num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--accent-gradient);
+      color: #fff;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      font-weight: 700;
+    }
+
+    p {
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .info-box {
+      background: rgba(3, 7, 18, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .info-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .info-value {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #f8fafc;
+      word-break: break-all;
+    }
+
+    .copy-field {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      color: #38bdf8;
+      margin: 12px 0 20px 0;
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      background: rgba(99, 102, 241, 0.2);
+      border: 1px solid var(--border-accent);
+      color: #c7d2fe;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    ol, ul {
+      padding-left: 24px;
+      margin-bottom: 20px;
+      color: #cbd5e1;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: #38bdf8;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      margin: 14px 0;
+    }
+
+    .alert {
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 18px 0;
+      font-size: 0.95rem;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .alert-success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #6ee7b7;
+    }
+
+    .alert-warn {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fcd34d;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .tag-lifetime { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .tag-admin { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 25px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 20px 12px; }
+      h1 { font-size: 1.7rem; }
+      .card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge-top">
+        <span class="status-dot"></span>
+        <span>Firebase Realtime Database • 24/7 Cloud Connected</span>
+      </div>
+      <h1>ឯកសារណែនាំគ្រប់គ្រង Server & License Key</h1>
+      <p class="subtitle">ប្រព័ន្ធគ្រប់គ្រងសិទ្ធិប្រើប្រាស់ និង Database សម្រាប់កម្មវិធី SastraGetWay (V2.0.5)</p>
+    </header>
+
+    <!-- SECTION 1 -->
+    <div class="card">
+      <h2><span class="num">១</span> ព័ត៌មាន Server ផ្ទាល់ខ្លួនរបស់បង (Active Cloud Server)</h2>
+      <p>កម្មវិធី SastraGetWay ត្រូវបានផ្លាស់ប្តូរភ្ជាប់ទៅកាន់ Google Firebase Database ផ្ទាល់ខ្លួនរបស់បងរួចរាល់ ១០០% ហើយ មិនពឹងផ្អែកលើ Server ចាស់របស់អ្នកដទៃទៀតឡើយ៖</p>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="info-label">ឈ្មោះ Project</div>
+          <div class="info-value">Digitalikh Getway</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">ទីតាំង Hosting (Location)</div>
+          <div class="info-value">Singapore (asia-southeast1) ⚡</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">ស្ថានភាព Server</div>
+          <div class="info-value" style="color: var(--accent-green);">● Online 24/7 (Connected)</div>
+        </div>
+        <div class="info-box">
+          <div class="info-label">ប្រភេទ Plan</div>
+          <div class="info-value">Spark (Free Tier មិនអស់លុយ)</div>
+        </div>
+      </div>
+
+      <div class="info-label">Database URL (REST Endpoint)</div>
+      <div class="copy-field">
+        <span id="db-url">https://digitalikh-getway-default-rtdb.asia-southeast1.firebasedatabase.app</span>
+        <button class="copy-btn" onclick="copyText('db-url')">ចម្លង Link</button>
+      </div>
+
+      <div class="info-label">Security Rules (កំណត់ឱ្យដំណើរការរហូត គ្មានថ្ងៃផុតកំណត់)</div>
+      <pre><code>{
+  "rules": {
+    ".read": true,
+    ".write": true
+  }
+}</code></pre>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="card">
+      <h2><span class="num">២</span> របៀបបើកផ្ទាំង Admin Control Center គ្រប់គ្រង License</h2>
+      <p>ផ្ទាំង Admin Control Center អនុញ្ញាតឱ្យបងបង្កើត License Key ថ្មី, បន្ថែមថ្ងៃ, Reset Password, ឬបិទ/លុបគណនីភ្ញៀវបានតាមចិត្ត។</p>
+
+      <ol>
+        <li>ចូលទៅកាន់ Folder កម្មវិធី៖ <code>d:\Dubber AI BackUP\SastraGetWayV2.0.5</code></li>
+        <li>ចុចពីរដង (Double Click) លើ file: <code>Sastra-Admin-Keygen.bat</code></li>
+        <li>ផ្ទាំងកម្មវិធី <strong>SASTRAGETWAY • ADMIN CONTROL CENTER (24/7 CLOUD)</strong> នឹងបើកដំណើរការភ្លាមៗ!</li>
+      </ol>
+
+      <div class="alert alert-success">
+        <div>💡 <strong>ចំណាំ៖</strong> File <code>Sastra-Admin-Keygen.bat</code> ត្រូវបានកែសម្រួលរួចរាល់ ដូច្នេះបងអាចចុចបើកបានគ្រប់ពេលដោយរលូន គ្មានបញ្ហា Error ឡើយ។</div>
+      </div>
+    </div>
+
+    <!-- SECTION 3 -->
+    <div class="card">
+      <h2><span class="num">៣</span> មុខងារសំខាន់ៗលើផ្ទាំង Admin Panel</h2>
+      
+      <p><strong>ក. បង្កើត License Key ថ្មី (សម្រាប់ខ្លួនឯង ឬលក់ឱ្យភ្ញៀវ)៖</strong></p>
+      <ul>
+        <li><strong>ជ្រើសរើសរយៈពេល៖</strong> 7 ថ្ងៃ, 1 ខែ (30 ថ្ងៃ), 3 ខែ (90 ថ្ងៃ), 6 ខែ (180 ថ្ងៃ), 1 ឆ្នាំ (365 ថ្ងៃ), ឬ <strong>Lifetime (រហូត)</strong></li>
+        <li><strong>ឈ្មោះ User / ភ្ញៀវ៖</strong> វាយឈ្មោះសម្គាល់ (ឧ. Pov, VIP 1)</li>
+        <li>ចុចប៊ូតុង <strong>«+ បង្កើត License Key ឥឡូវនេះ»</strong></li>
+        <li>ចុច <strong>«ចម្លង Key»</strong> ដើម្បីយកទៅប្រើ ឬផ្ញើឱ្យភ្ញៀវតាម Telegram។</li>
+      </ul>
+
+      <p><strong>ខ. គ្រប់គ្រងគណនី (Remote Actions)៖</strong></p>
+      <ul>
+        <li><strong>ប្ដូរ Password (Reset Pass)៖</strong> ករណីបង ឬភ្ញៀវភ្លេចពាក្យសម្ងាត់ ចុចលើពាក្យ <em>«ប្តូរ Password»</em> រួចវាយ Password ថ្មី</li>
+        <li><strong>ពន្យារថ្ងៃ / +ថ្ងៃ / ដាក់ Lifetime៖</strong> ចុចបន្ថែមថ្ងៃឱ្យភ្ញៀវដោយមិនបាច់បង្កើត Key ថ្មី</li>
+        <li><strong>Logout ម៉ាស៊ីន (Force Logout)៖</strong> ដោះម៉ាស៊ីនចាស់ចេញ បើភ្ញៀវចង់ប្តូរទៅប្រើកុំព្យូទ័រថ្មី</li>
+        <li><strong>បិទគណនី (Disable) / លុបគណនី (Delete)៖</strong> ផ្អាកសិទ្ធិប្រើប្រាស់ភ្លាមៗ។</li>
+      </ul>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="card">
+      <h2><span class="num">៤</span> របៀបចុះឈ្មោះ និង Login ចូលប្រើ SastraGetWay</h2>
+      <ol>
+        <li>បើកកម្មវិធីតាមរយៈ File <code>START_SASTRAGETWAY.bat</code></li>
+        <li>ចុចលើផ្ទាំង <strong>«Sign Up»</strong> (ចុះឈ្មោះថ្មី)</li>
+        <li>បញ្ចូល <strong>Gmail របស់បង</strong>, <strong>ពាក្យសម្ងាត់ (Password) ថ្មី</strong>, និង <strong>License Key</strong> ដែលបានបង្កើតពី Admin Panel</li>
+        <li>ចុចប៊ូតុង <strong>Sign Up / Create Account</strong> នោះបងនឹងបាន Login ចូលផ្ទាំងធំ SastraGetWay ភ្លាមៗ!</li>
+      </ol>
+
+      <div class="alert alert-warn">
+        <div>🔒 <strong>គោលការណ៍សុវត្ថិភាព៖</strong> គណនីនីមួយៗ (1 Gmail) អាច Login ប្រើប្រាស់លើកុំព្យូទ័របានតែមួយគ្រឿងគត់ក្នុងពេលតែមួយ (1 Gmail = 1 Active Device Machine ID)។ បើចង់ប្តូរម៉ាស៊ីន ត្រូវចូលទៅ Admin Panel ចុច <em>«Logout ម៉ាស៊ីន»</em> ជាមុនសិន។</div>
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="card">
+      <h2><span class="num">៥</span> ទីតាំង File កំណត់រចនាសម្ព័ន្ធ (Configuration Files)</h2>
+      <ul>
+        <li><code>license/cloud-config.json</code> — ផ្ទុកតំណភ្ជាប់ Firebase Database URL និង Telegram Admin</li>
+        <li><code>license/license-manager.js</code> — Engine ស្នូលសម្រាប់ផ្ទៀងផ្ទាត់សិទ្ធិ, Encrypt Password, និង Sync Cloud</li>
+        <li><code>admin-keygen/keygen-main.js</code> — កម្មវិធីបើកផ្ទាំង Admin Control Center</li>
+        <li><code>%APPDATA%\SastraGetWay_Data\</code> — ផ្ទុក Hardware Machine ID និង Cache សុវត្ថិភាពរបស់កុំព្យូទ័រ</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>ឯកសារចងក្រងដោយ Antigravity AI សម្រាប់ប្រព័ន្ធ <strong>SastraGetWay V2.0.5</strong></p>
+      <p style="font-size: 0.8rem; margin-top: 6px;">កាលបរិច្ឆេទបង្កើត៖ ថ្ងៃទី ១៤ ខែវិច្ឆិកា ឆ្នាំ ២០២៦</p>
+    </footer>
+  </div>
+
+  <script>
+    function copyText(elemId) {
+      const text = document.getElementById(elemId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert('ចម្លងបានជោគជ័យ៖ ' + text);
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    }
+  </script>
+</body>
+</html>
