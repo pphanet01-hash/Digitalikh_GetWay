@@ -256,6 +256,24 @@ function parseErrorReset(str) {
 
 async function fetchLiveQuotaStats() {
   const now = Date.now();
+  if (quotaCache.refreshing) {
+    return quotaCache.data || {
+      todayTokens: 0,
+      todayRequests: 0,
+      allTimeTokens: 0,
+      allTimeRequests: 0,
+      allTimeCost: "0.00",
+      poolUsed: 0,
+      poolTotal: 0,
+      usagePercent: "0.0",
+      remainingPercent: "100.0",
+      accountQuotas: {}
+    };
+  }
+  if (quotaCache.data && (now - quotaCache.timestamp < UPSTREAM_QUOTA_CACHE_TTL_MS)) {
+    return quotaCache.data;
+  }
+  quotaCache.refreshing = true;
   const dbPath = path.join(app.getPath('appData'), '9router', 'db', 'data.sqlite');
   if (!fs.existsSync(dbPath)) {
     return {
@@ -554,11 +572,11 @@ async function resolveAccountEligibility(id) {
 
 // Helper to read local SQLite accounts
 function getLocalAccounts() {
-  ensureDefaultApiKey();
   const dbPath = path.join(app.getPath('appData'), '9router', 'db', 'data.sqlite');
   if (!fs.existsSync(dbPath)) return [];
   try {
     const db = new sqlite.DatabaseSync(dbPath);
+    try { db.exec('PRAGMA busy_timeout = 3000;'); } catch (e) { }
     const rows = db.prepare("SELECT id, name, email, provider, isActive, data, updatedAt FROM providerConnections ORDER BY priority ASC, createdAt DESC").all();
     const liveQuotas = quotaCache.data?.accountQuotas || {};
 
@@ -571,6 +589,7 @@ function getLocalAccounts() {
         lastUsedTime = lastUsage.timestamp;
       }
     } catch (e) { }
+    try { db.close(); } catch (e) { }
 
     return rows.map(r => {
       let status = r.isActive ? 'active' : 'standby';

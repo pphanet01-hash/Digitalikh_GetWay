@@ -3682,34 +3682,13 @@
       // Background engine self-healing is managed via main.js
     }
 
-    async function loadAccounts() {
-      let accounts = [];
-      let quotaStats = null;
-      if (window.electronAPI) {
-        try {
-          const accs = await window.electronAPI.getAccounts();
-          if (accs && accs.length > 0) {
-            accounts = accs;
-            allAccountsData = accounts;
-          }
-          if (window.electronAPI.getQuotaStats) {
-            quotaStats = await window.electronAPI.getQuotaStats();
-          }
-          if (!accounts || accounts.length === 0) {
-            accounts = accs || [];
-          }
-        } catch (e) {
-          console.error('[loadAccounts Error]:', e);
-        }
-      }
+    function updateQuotaTelemetry(quotaStats) {
+      if (!quotaStats) return;
 
-      if (!accounts) { accounts = []; }
-
-      allAccountsData = accounts;
-
-      // Enrich accounts with live quota data from quotaStats if available
-      if (quotaStats && quotaStats.accountQuotas) {
-        accounts.forEach(acc => {
+      // Enrich accounts with live quota data from quotaStats
+      if (quotaStats.accountQuotas && allAccountsData && allAccountsData.length > 0) {
+        let changed = false;
+        allAccountsData.forEach(acc => {
           const q = quotaStats.accountQuotas[acc.id];
           if (q) {
             acc.quotaRemaining = q.remainingPct;
@@ -3721,43 +3700,16 @@
               acc.status = 'cooling';
               acc.cooldown = acc.resetTime || 'Cooling';
             }
+            changed = true;
           }
         });
+        if (changed) {
+          renderAccounts();
+        }
       }
 
-      // Update Filter counts
-      const antigravityCount = accounts.filter(a => a.provider === 'antigravity').length;
-      const geminiCount = accounts.filter(a => a.provider === 'gemini').length;
-      const geminiWebCount = accounts.filter(a => a.provider === 'gemini-web').length;
-      document.getElementById('count-antigravity').textContent = antigravityCount;
-      document.getElementById('count-gemini').textContent = geminiCount;
-      const gwCntEl = document.getElementById('count-gemini-web');
-      if (gwCntEl) gwCntEl.textContent = geminiWebCount;
-      document.getElementById('count-all').textContent = accounts.length;
-
-      // Update Telemetry Metrics
-      let activeCount = 0;
-      let coolingCount = 0;
-      let standbyCount = 0;
-
-      accounts.forEach(acc => {
-        if (acc.status === 'cooling' || acc.status === 'disabled') coolingCount++;
-        else if (acc.status === 'standby') standbyCount++;
-        else activeCount++;
-      });
-
-      const total = accounts.length;
-      document.getElementById('stat-total').textContent = total;
-      document.getElementById('stat-total-badge').textContent = `+${activeCount} Active`;
-      document.getElementById('stat-active').textContent = activeCount;
-      document.getElementById('stat-active-pct').textContent = total > 0 ? Math.round((activeCount / total) * 100) + '%' : '0%';
-      document.getElementById('stat-cooling').textContent = coolingCount;
-      document.getElementById('stat-cooling-pct').textContent = total > 0 ? Math.round((coolingCount / total) * 100) + '%' : '0%';
-      document.getElementById('stat-standby').textContent = standbyCount;
-      document.getElementById('stat-standby-pct').textContent = total > 0 ? Math.round((standbyCount / total) * 100) + '%' : '0%';
-
       // Update Real Quota Telemetry (Metric 5)
-      if (quotaStats && quotaStats.poolTotal > 0) {
+      if (quotaStats.poolTotal > 0) {
         const poolUsed = quotaStats.poolUsed || 0;
         const poolTotal = quotaStats.poolTotal || 1000;
         const usagePct = quotaStats.usagePercent || '0.0';
@@ -3812,15 +3764,75 @@
         if (quotaBox) {
           quotaBox.title = `Cumulative Quota: ${poolUsed.toLocaleString()} / ${poolTotal.toLocaleString()} units (${usagePct}% used)\nToday's Tokens: ${todayTokens.toLocaleString()} (${quotaStats.todayRequests || 0} reqs)\nAll-Time Tokens: ${allTimeTokens.toLocaleString()} (${allTimeReqs} reqs, \$${allTimeCost} savings)`;
         }
-      } else {
-        const activePct = total > 0 ? Math.round((activeCount / total) * 100) : 100;
-        const progressBar = document.getElementById('stat-progress-bar');
-        if (progressBar) progressBar.style.width = `${Math.max(15, activePct)}%`;
-        const quotaPctEl = document.getElementById('stat-quota-pct');
-        if (quotaPctEl) quotaPctEl.textContent = `${activePct}% Pool Health`;
+      }
+    }
+
+    async function loadAccounts() {
+      let accounts = [];
+      if (window.electronAPI) {
+        try {
+          const accs = await window.electronAPI.getAccounts();
+          if (accs && accs.length > 0) {
+            accounts = accs;
+          }
+        } catch (e) {
+          console.error('[loadAccounts Error]:', e);
+        }
       }
 
+      allAccountsData = accounts || [];
+
+      // Update Filter counts
+      const antigravityCount = allAccountsData.filter(a => a.provider === 'antigravity').length;
+      const geminiCount = allAccountsData.filter(a => a.provider === 'gemini').length;
+      const geminiWebCount = allAccountsData.filter(a => a.provider === 'gemini-web').length;
+      const cntAg = document.getElementById('count-antigravity');
+      if (cntAg) cntAg.textContent = antigravityCount;
+      const cntGem = document.getElementById('count-gemini');
+      if (cntGem) cntGem.textContent = geminiCount;
+      const gwCntEl = document.getElementById('count-gemini-web');
+      if (gwCntEl) gwCntEl.textContent = geminiWebCount;
+      const cntAll = document.getElementById('count-all');
+      if (cntAll) cntAll.textContent = allAccountsData.length;
+
+      // Update Telemetry Metrics
+      let activeCount = 0;
+      let coolingCount = 0;
+      let standbyCount = 0;
+
+      allAccountsData.forEach(acc => {
+        if (acc.status === 'cooling' || acc.status === 'disabled') coolingCount++;
+        else if (acc.status === 'standby') standbyCount++;
+        else activeCount++;
+      });
+
+      const total = allAccountsData.length;
+      const statTotal = document.getElementById('stat-total');
+      if (statTotal) statTotal.textContent = total;
+      const statBadge = document.getElementById('stat-total-badge');
+      if (statBadge) statBadge.textContent = `+${activeCount} Active`;
+      const statActive = document.getElementById('stat-active');
+      if (statActive) statActive.textContent = activeCount;
+      const statActivePct = document.getElementById('stat-active-pct');
+      if (statActivePct) statActivePct.textContent = total > 0 ? Math.round((activeCount / total) * 100) + '%' : '0%';
+      const statCooling = document.getElementById('stat-cooling');
+      if (statCooling) statCooling.textContent = coolingCount;
+      const statCoolingPct = document.getElementById('stat-cooling-pct');
+      if (statCoolingPct) statCoolingPct.textContent = total > 0 ? Math.round((coolingCount / total) * 100) + '%' : '0%';
+      const statStandby = document.getElementById('stat-standby');
+      if (statStandby) statStandby.textContent = standbyCount;
+      const statStandbyPct = document.getElementById('stat-standby-pct');
+      if (statStandbyPct) statStandbyPct.textContent = total > 0 ? Math.round((standbyCount / total) * 100) + '%' : '0%';
+
+      // Instant UI Render (0ms delay)
       renderAccounts();
+
+      // Asynchronous background Quota fetch (never blocks UI)
+      if (window.electronAPI && window.electronAPI.getQuotaStats) {
+        window.electronAPI.getQuotaStats().then(qs => {
+          if (qs) updateQuotaTelemetry(qs);
+        }).catch(() => {});
+      }
     }
 
     // Real-Time In-Flight Request Telemetry Stream Listener
