@@ -3275,8 +3275,8 @@ async function checkForGitHubUpdates() {
             currentVersion,
             latestVersion: remoteVersion,
             mode: 'installer',
-            downloadUrl: `${GITHUB_REPO_URL}/releases/download/v${remoteVersion}/SastraGetWay.Setup.${remoteVersion}.exe`,
-            assetName: `SastraGetWay Setup ${remoteVersion}.exe`,
+            downloadUrl: `${GITHUB_REPO_URL}/releases/download/v${remoteVersion}/DigitalikhGetWay.Setup.${remoteVersion}.exe`,
+            assetName: `DigitalikhGetWay Setup ${remoteVersion}.exe`,
             releaseNotes: `New version v${remoteVersion} is available.`,
             htmlUrl: `${GITHUB_REPO_URL}/releases`,
             branch
@@ -3369,7 +3369,7 @@ async function performGitHubUpdate(updateInfo) {
 
     // Mode 1: Full NSIS Installer (.exe) from GitHub Releases
     if (info && info.mode === 'installer' && info.downloadUrl) {
-      const destInstaller = path.join(app.getPath('temp'), `SastraGetWay-Setup-${info.latestVersion || 'latest'}.exe`);
+      const destInstaller = path.join(app.getPath('temp'), `DigitalikhGetWay-Setup-${info.latestVersion || 'latest'}.exe`);
       sendUpdateStatus({ state: 'downloading', percent: 5, message: `Downloading ${info.assetName || 'Update Installer'}...` });
 
       await downloadFileWithProgress(info.downloadUrl, destInstaller, (pct) => {
@@ -3422,7 +3422,7 @@ async function performGitHubUpdate(updateInfo) {
     }
 
     if (updatedCount > 0) {
-      sendUpdateStatus({ state: 'completed', percent: 100, message: 'Update complete! Restarting SastraGetWay...' });
+      sendUpdateStatus({ state: 'completed', percent: 100, message: 'Update complete! Restarting DIGITALIKH GETWAY...' });
       setTimeout(() => {
         isQuitting = true;
         stopEngine();
